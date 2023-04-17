@@ -12,7 +12,7 @@ from rknn.api import RKNN
 
 #print(sys.path)
 
-RKNN_MODEL = '/root/rknn_converter/yolov5_quant.rknn'
+RKNN_MODEL = '/root/yolov5_tg/tg_yolo/rknn_converter/yolov5_quant.rknn'
 #DATASET = './yolo_dataset/dataset.txt'
 
 QUANTIZE_ON = True
@@ -21,18 +21,18 @@ OBJ_THRESH = 0.25
 NMS_THRESH = 0.45
 IMG_SIZE = 640
 
-def main(ONNX_MODEL='../yolov5_bot/best.onnx', DATASET='/root/coco_calib/'):
+def main(ONNX_MODEL='../yolov5_bot/best.onnx', DATASET='/root/yolov5_tg/coco_calib/'):
     if os.path.isdir(DATASET):
         imgs_list = [f for f in os.listdir(DATASET) if os.path.isfile(os.path.join(DATASET, f))]
-        file_name = '/root/rknn_converter/dataset.txt'
+        file_name = '/root/yolov5_tg/tg_yolo/rknn_converter/dataset.txt'
         with open(file_name, 'w') as f:
             for line in imgs_list:
                 img_path = os.path.join(DATASET, line)
                 f.writelines(img_path+'\n')
-        DATASET = '/root/rknn_converter/dataset.txt'
+        DATASET = '/root/yolov5_tg/tg_yolo/rknn_converter/dataset.txt'
     else:
         print('dataset not found; try by coco_calib')
-        DATASET = '/root/rknn_converter/coco_dataset.txt'
+        DATASET = '/root/yolov5_tg/tg_yolo/rknn_converter/coco_dataset.txt'
     
     if os.path.isfile(ONNX_MODEL) is False:
         print('onnx model not found', ONNX_MODEL)
