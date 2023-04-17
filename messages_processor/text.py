@@ -273,7 +273,7 @@ class Text(Messages):
             projects_list = [f for f in os.listdir(proj_dir) if not f.startswith('.')]
             keyboard = [{'text':proj_name} for proj_name in projects_list]
         else:
-            os.chdir(base_path)
+            #os.chdir(base_path)
             projects_list = [f for f in os.listdir(proj_dir) if not f.startswith('.')]
             keyboard = [{'text':proj_name} for proj_name in projects_list]
         keyboard.append({'text':'Назад'})
