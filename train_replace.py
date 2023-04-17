@@ -14,10 +14,10 @@ class EpochsLogger():
 
 epochs_logger = EpochsLogger()
 
-#epochs_logger.set_current_epoch(epoch)
-#epochs_logger.set_epochs(epochs - 1)
+#351 # epochs_logger.set_current_epoch(epoch)
+#352 # epochs_logger.set_epochs(epochs - 1)
 
-#epochs_logger.set_current_epoch(epochs)
-#epochs_logger.set_epochs(epochs - 1)
+#421 # epochs_logger.set_current_epoch(epochs)
+#422 # epochs_logger.set_epochs(epochs - 1)
 
-#epochs_logger.save_dir = save_dir
+#423 # epochs_logger.save_dir = save_dir

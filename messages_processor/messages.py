@@ -1,27 +1,10 @@
-import telebot
-from telegram.ext import Updater, CommandHandler
-import requests
-
 import pickle
-import time
-import random
 import os
-import shutil
-import json
-import cv2
+import telebot
 
-import PIL
-from PIL import Image
-import base64
-import io
-
-import train
-import detect
-import export
-
-#import ktc
-import onnx
-import numpy as np
+import yolov5.train as train
+import yolov5.detect as detect
+import yolov5.export as export
 
 
 class Clients:
