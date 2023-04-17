@@ -798,14 +798,14 @@ class Text(Messages):
         path_to_onnx_weights = path_to_onnx_weights[:-3] + '.onnx'
         path_to_dataset = os.path.join(proj_dir, 'dataset', 'train', 'images')
         if os.path.isdir(path_to_dataset):
-            input_img = '/root/yolov5_bot/' + path_to_dataset
+            input_img = path_to_dataset
         else:
             input_img = '/root/coco_calib'
 
-        path_to_onnx_weights = '/root/yolov5_bot/' + path_to_onnx_weights
+        #path_to_onnx_weights =  path_to_onnx_weights
         print('path_to_onnx_weights', path_to_onnx_weights)
         print('input_img', input_img)
-        command = '/root/rknn_converter/yolo_convert.py '
+        command = '/root/yolov5_tg/tg_yolo/rknn_converter/yolo_convert.py '
         popen = subprocess.Popen('python3 '+ command + path_to_onnx_weights +' '+ input_img, executable='/bin/bash', shell=True)
         popen.wait()
 
@@ -879,14 +879,20 @@ class Text(Messages):
         weights_onnx = weights[:-3] + '.onnx'
         if os.path.isfile(weights_onnx):
             return weights
-        opt = export.parse_opt()
-        opt.weights = weights
-        opt.opset = 11
-        if kn:
-            export.main(opt)
-        else: #khadas
-            opt.khadas = True
-            export.main(opt)
+        #opt = export.parse_opt()
+        #opt.weights = weights
+        #opt.opset = 11
+        savedPath = os.getcwd()
+        os.chdir('/root/yolov5_tg/tg_yolo/yolov5/')
+        command = '/root/yolov5_tg/tg_yolo/yolov5/export.py'
+        #export.main(opt)
+        params = f'--weights {weights} --opset {11}'
+        print()
+        print('python3 '+ command +' ' +  params)
+        popen = subprocess.Popen('python3 '+ command +' ' +  params, executable='/bin/bash', shell=True)
+        popen.wait()
+        os.chdir(savedPath)
+        
         return weights
     
     def compile_nef_model(self, path_to_weights):
