@@ -609,19 +609,26 @@ class Text(Messages):
             epochs_logger.set_current_epoch(22)
             epochs_logger.set_epochs(20)
             return text, keyboard
-        opt = train.parse_opt()
-        opt.data = data_dir
-        opt.noautoanchor = True
-        opt.cfg = model_dir
-        opt.weights = weights
-        opt.freeze = freeze
-        opt.batch = batch
-        opt.epochs = num_epochs
-        opt.project = result_dir
-        opt.name = 'exp'
+#         opt = train.parse_opt()
+#         opt.data = data_dir
+#         opt.noautoanchor = True
+#         opt.cfg = model_dir
+#         opt.weights = weights
+#         opt.freeze = freeze
+#         opt.batch = batch
+#         opt.epochs = num_epochs
+#         opt.project = result_dir
+#         opt.name = 'exp'
         clients.busy['mode'] = 'train'
+        savedPath = os.getcwd()
+        os.chdir('/root/yolov5_tg/tg_yolo/yolov5/')
+        command = '/root/yolov5_tg/tg_yolo/yolov5/train.py'
+        params = f'--weights {weights} --data {data_dir} --cfg {model_dir} --freeze {freeze} --batch {batch} --epochs {num_epochs} --project {result_dir}'
+        popen = subprocess.Popen('python3 '+ command +' ' +  params, executable='/bin/bash', shell=True)
+        popen.wait()
+        #train.main(opt)
         
-        train.main(opt)
+        os.chdir(savedPath)
         clients.busy['mode'] = None
         clients.busy['model_dir'] = None
         clients.busy['epochs'] = 0
