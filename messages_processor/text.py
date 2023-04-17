@@ -812,7 +812,7 @@ class Text(Messages):
         keyboard = self.BOTTOM_DICT['models_x']
         keyboard = Keyboards.reply_keyboard(keyboard)
         if popen.returncode == 0:
-            return '/root/rknn_converter/yolov5_quant.rknn', keyboard
+            return '/root/yolov5_tg/tg_yolo/rknn_converter/yolov5_quant.rknn', keyboard
         else:
             return '', keyboard
 
@@ -886,7 +886,7 @@ class Text(Messages):
         os.chdir('/root/yolov5_tg/tg_yolo/yolov5/')
         command = '/root/yolov5_tg/tg_yolo/yolov5/export.py'
         #export.main(opt)
-        params = f'--weights {weights} --opset {11}'
+        params = f'--weights {weights} --include onnx --opset 11'
         print()
         print('python3 '+ command +' ' +  params)
         popen = subprocess.Popen('python3 '+ command +' ' +  params, executable='/bin/bash', shell=True)
