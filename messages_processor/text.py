@@ -6,11 +6,11 @@ import numpy as np
 import zipfile
 import shutil
 
-#import ktc
-from train import epochs_logger
+from yolov5.train import epochs_logger
 
 from messages_processor.messages import *
 
+PATH = '/root/yolov5_tg/projects'
 
 class Text(Messages):
     
@@ -261,7 +261,6 @@ class Text(Messages):
                               'models' : self.get_models_list,
                               'model_config' : self.set_inf_config,
                               'choose_model' : self.set_model,
-                              'subscription_state' : self.payment_date
                              }
     
     def get_models_list(self):
@@ -385,7 +384,8 @@ class Text(Messages):
         text = 'Мои проекты:'
         keyboard = []
         chat_id = self.current_message.chat.id
-        proj_dir = os.path.join(str(chat_id), 'projects')
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects')
         projects_list = [f for f in os.listdir(proj_dir) if not f.startswith('.')]
         for proj_name in projects_list:
             keyboard.append({'text':proj_name}) 
@@ -395,7 +395,8 @@ class Text(Messages):
     def set_project(self):
         message_text = self.current_message.text
         chat_id = self.current_message.chat.id
-        projects_list = os.listdir(str(chat_id)+'/projects/')
+        path = os.path.join(PATH, str(chat_id))
+        projects_list = os.listdir(path+'/projects/')
         
         if message_text.lower() == 'создать':
             self.set_state('create_project')
@@ -425,7 +426,8 @@ class Text(Messages):
         keyboard = None
 
         chat_id = self.current_message.chat.id
-        user_dir = os.path.join(str(chat_id), 'projects')
+        path = os.path.join(PATH, str(chat_id))
+        user_dir = os.path.join(path, 'projects')
         num_projects = 0
         for obj in os.listdir(user_dir):
             path = os.path.join(user_dir, obj)
@@ -450,7 +452,8 @@ class Text(Messages):
         else:
             chat_id = self.current_message.chat.id
             message_text = message_text.replace(' ', '_')
-            proj_dir = os.path.join(str(chat_id), 'projects', message_text)
+            path = os.path.join(PATH, str(chat_id))
+            proj_dir = os.path.join(path, 'projects', message_text)
             os.mkdir(proj_dir)
             for user_folder in ['jsons_list', 'data', 'dataset', 'train', 'models']:
                 data_dir = os.path.join(proj_dir, user_folder)
@@ -484,7 +487,8 @@ class Text(Messages):
         elif message_text.lower() == 'ok':
             chat_id = self.current_message.chat.id
             project_name = clients.get_project_name(chat_id)
-            path = str(chat_id)+'/projects/' + project_name
+            path = os.path.join(PATH, str(chat_id))
+            path = path+'/projects/' + project_name
             shutil.rmtree(path)
             self.set_state('projectes')
             text, keyboard = self.get_projects_list()
@@ -522,7 +526,8 @@ class Text(Messages):
     def download_roboflow_data(self, message_text):
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         dataset_dir = os.path.join(proj_dir, 'dataset')
         file_name = os.path.join(dataset_dir,'roboflow.zip')
         f = open(file_name,"wb")
@@ -583,7 +588,8 @@ class Text(Messages):
         # train
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         result_dir = proj_dir + '/train'
         data_dir = proj_dir +'/data/custom.yaml'
         model_dir = 'models/yolov5m.yaml'
@@ -641,7 +647,8 @@ class Text(Messages):
         # train
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         result_dir = proj_dir + '/train'
         data_dir = proj_dir +'/data/custom.yaml'
         model_dir = 'models/yolov5m.yaml'
@@ -688,7 +695,8 @@ class Text(Messages):
     def load_of_weights_kn(self):
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         weights_path = os.path.join(proj_dir, 'train')
         exp = os.listdir(weights_path)
         exp.sort()
@@ -707,7 +715,8 @@ class Text(Messages):
     def load_of_weights_khds(self):
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         weights_path = os.path.join(proj_dir, 'train')
         exp = os.listdir(weights_path)
         exp.sort()
@@ -769,7 +778,8 @@ class Text(Messages):
     def load_of_weights_rk(self):
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         weights_path = os.path.join(proj_dir, 'train')
         exp = os.listdir(weights_path)
         exp.sort()
@@ -850,7 +860,8 @@ class Text(Messages):
     def export_weights_to_onnx(self, chat_id, kn):
         # export
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         result_dir = proj_dir + '/train'
         exp = os.listdir(result_dir)
         exp.sort()
@@ -948,7 +959,8 @@ class Text(Messages):
         text = 'Изображения: \n'
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        data_dir = os.path.join(str(chat_id), 'projects', str(project_name), data_name)
+        path = os.path.join(PATH, str(chat_id))
+        data_dir = os.path.join(path, 'projects', str(project_name), data_name)
         imgs = os.listdir(data_dir)
         labels = os.listdir(data_dir[:-6]+'labels')
         if len(imgs) == 0:
@@ -974,7 +986,8 @@ class Text(Messages):
         text = ''
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        data_dir = os.path.join(str(chat_id), 'projects', str(project_name), data_name)
+        path = os.path.join(PATH, str(chat_id))
+        data_dir = os.path.join(path, 'projects', str(project_name), data_name)
         for annot in os.listdir(data_dir):
             path_to_ann = os.path.join(data_dir, annot)
             try:
@@ -982,7 +995,7 @@ class Text(Messages):
                 text += annot + ',\n'
             except:
                 print(f'failed remove {path_to_ann}')
-        config_dir = os.path.join(str(chat_id), 'projects', str(project_name), 'data')
+        config_dir = os.path.join(path, 'projects', str(project_name), 'data')
         config_file = os.path.join(config_dir, 'custom.yaml')
         os.remove(config_file)
         text = 'Удалены ' + text
@@ -994,18 +1007,3 @@ class Text(Messages):
     
     def delete_test_list(self):
         return self._delete_list('dataset/valid/images')
-   
-    def payment_date(self):
-        time = 30
-        text = f'Пробный период : Осталось {time} дней.\n'+\
-               'Продлить на 30 дней - 10р.\n'
-        keyboard = keyboard = [{'text':'Отмена'}]
-        try:
-            if self.kassa.test_token():
-                pay_sum = 10
-                base_url, pay_key = self.kassa.quickpay(pay_sum = 10)
-        except:
-            base_url = 'yoomoney URL to pay'
-        text = text + f'Ссылка для оплаты {base_url}'
-        return text, keyboard
-

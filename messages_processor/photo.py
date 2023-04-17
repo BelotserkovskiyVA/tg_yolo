@@ -1,5 +1,12 @@
+import json
+import PIL
+import base64
+import io
+
 from messages_processor.messages import *
 
+
+PATH = '/root/yolov5_tg/projects'
 
 
 class Photo(Messages):
@@ -51,8 +58,9 @@ class Photo(Messages):
 
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        data_dir = os.path.join(str(chat_id), 'projects', str(project_name), data_name)
-        dataset_dir = os.path.join(str(chat_id), 'projects', str(project_name), 'dataset')
+        path = os.path.join(PATH, str(chat_id))
+        data_dir = os.path.join(path, 'projects', str(project_name), data_name)
+        dataset_dir = os.path.join(path, 'projects', str(project_name), 'dataset')
         if self.current_message.content_type == 'photo':
             text = 'Файл не был загружен. Не нужно сжимать изображение.'
             keyboard = [{'text':('Мои аннотации','Отмена')}]
@@ -111,7 +119,7 @@ class Photo(Messages):
         f.write(img_data)
         img_pil = PIL.Image.open(f)
         try:
-            img_pil.save('./'+path_to_save)
+            img_pil.save(path_to_save)
         except:
             print('no save')
         self.json_to_labels(load_json, path_to_labels, dataset_dir)
@@ -239,7 +247,8 @@ class Photo(Messages):
         with open(src_img_path, 'wb') as new_file:
             new_file.write(downloaded_file)
         project_name = clients.get_project_name(chat_id)
-        proj_dir = os.path.join(str(chat_id), 'projects', project_name)
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects', project_name)
         result_dir = proj_dir + '/detect'
         data_dir = os.path.join(proj_dir, 'data', 'custom.yaml')
         opt = detect.parse_opt()
