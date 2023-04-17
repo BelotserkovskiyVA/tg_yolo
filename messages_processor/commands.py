@@ -1,5 +1,7 @@
 from messages_processor.messages import *
 
+PATH = '/root/yolov5_tg/projects/'
+
 class Commands(Messages):
     
     def __init__(self):
@@ -64,9 +66,10 @@ class Commands(Messages):
             self.set_state('menu')
             text = 'Меню: '
             keyboard = self.BOTTOM_DICT['menu']
-            if os.path.exists(str(chat_id)+'/projects'):
+            path = PATH + str(chat_id)+'/projects'
+            if os.path.exists(path):
                 return text, keyboard
             else:
-                os.mkdir(str(chat_id))
-                os.mkdir(str(chat_id)+'/projects')
+                os.mkdir(PATH+str(chat_id))
+                os.mkdir(PATH+str(chat_id)+'/projects')
                 return text, keyboard
