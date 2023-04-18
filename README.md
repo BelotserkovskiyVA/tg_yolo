@@ -8,6 +8,7 @@ git clone https://github.com/BelotserkovskiyVA/tg_yolo.git
 ## 2. Install ultralytics/yolov5
 ```
 cd tg_yolo/
+pip install r requirements.txt
 git clone https://github.com/ultralytics/yolov5.git
 ```
 ## 3. set a BOT_TOKEN into config.py
@@ -21,6 +22,7 @@ export_replace.py -> export.py;
 yolo_replace.py -> yolo.py;
 ```
 cd yolov5/
+pip install r requirements.txt
 ```
 ## 5. Start bot
 ```
