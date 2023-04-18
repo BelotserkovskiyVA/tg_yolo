@@ -16,9 +16,9 @@ git clone https://github.com/ultralytics/yolov5.git
 BOT_TOKEN = '12345:abcde' #Your_token
 ```
 ## 4. make changes to programs:  
-train_replace.py -> train.py
-export_replace.py -> export.py
-yolo_replace.py -> yolo.py
+train_replace.py -> train.py;
+export_replace.py -> export.py;
+yolo_replace.py -> yolo.py;
 ```
 cd yolov5/
 ```
