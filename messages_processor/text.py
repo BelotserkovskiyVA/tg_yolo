@@ -267,7 +267,8 @@ class Text(Messages):
         text = 'Мои обученные модели:'
         keyboard = []
         chat_id = self.current_message.chat.id
-        proj_dir = os.path.join(str(chat_id), 'projects')
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects')
         base_path = os.path.join('/root', 'yolov5_bot')
         if os.path.isdir(proj_dir):
             projects_list = [f for f in os.listdir(proj_dir) if not f.startswith('.')]
@@ -282,7 +283,8 @@ class Text(Messages):
     def set_model(self):
         message_text = self.current_message.text
         chat_id = self.current_message.chat.id
-        proj_dir = os.path.join(str(chat_id), 'projects')
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects')
         projects_list = [f for f in os.listdir(proj_dir) if not f.startswith('.')]
         if message_text.lower() == 'назад':
             self.set_state('menu')
@@ -887,8 +889,8 @@ class Text(Messages):
         command = '/root/yolov5_tg/tg_yolo/yolov5/export.py'
         #export.main(opt)
         params = f'--weights {weights} --include onnx --opset 11'
-        print()
-        print('python3 '+ command +' ' +  params)
+        #print()
+        #print('python3 '+ command +' ' +  params)
         popen = subprocess.Popen('python3 '+ command +' ' +  params, executable='/bin/bash', shell=True)
         popen.wait()
         os.chdir(savedPath)
