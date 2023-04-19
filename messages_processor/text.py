@@ -373,10 +373,15 @@ class Text(Messages):
                 }
         chat_id = self.current_message.chat.id
         project_name = clients.get_project_name(chat_id)
-        train_data_dir = os.path.join(str(chat_id), 'projects', str(project_name), 'dataset', 'train', 'images')
+        path = os.path.join(PATH, str(chat_id))
+        proj_dir = os.path.join(path, 'projects')
+        train_data_dir = os.path.join(proj_dir, str(project_name), 'dataset', 'train', 'images')
         imgs_number = len(os.listdir(train_data_dir))
         batch_size = min(imgs_number, 32)
-        
+        if imgs_number < 1:
+            epochs_n = 20
+            epochs_logger.set_epochs(epochs_n - 1)
+            return epochs_n
         epochs_n = iters.get(message_text)*batch_size/imgs_number
         epochs_n = max(2, int(epochs_n))
         epochs_logger.set_epochs(epochs_n - 1)
