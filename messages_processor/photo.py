@@ -2,6 +2,7 @@ import json
 import PIL
 import base64
 import io
+import subprocess
 
 from messages_processor.messages import *
 
@@ -185,7 +186,8 @@ class Photo(Messages):
         chat_id = self.current_message.chat.id
         downloaded_file = self.documents_dict[chat_id]
         
-        stock_data_dir = os.path.join(str(chat_id), 'stock')
+        path = os.path.join(PATH, str(chat_id))
+        stock_data_dir = os.path.join(path, 'stock')
         if not os.path.isdir(stock_data_dir):
             os.makedirs(stock_data_dir)
         
@@ -233,7 +235,8 @@ class Photo(Messages):
         chat_id = self.current_message.chat.id
         downloaded_file = self.documents_dict[chat_id]
         
-        stock_data_dir = os.path.join(str(chat_id), 'stock')
+        path = os.path.join(PATH, str(chat_id))
+        stock_data_dir = os.path.join(path, 'stock')
         if not os.path.isdir(stock_data_dir):
             os.makedirs(stock_data_dir)
         
@@ -247,24 +250,31 @@ class Photo(Messages):
         with open(src_img_path, 'wb') as new_file:
             new_file.write(downloaded_file)
         project_name = clients.get_project_name(chat_id)
-        path = os.path.join(PATH, str(chat_id))
         proj_dir = os.path.join(path, 'projects', project_name)
         result_dir = proj_dir + '/detect'
         data_dir = os.path.join(proj_dir, 'data', 'custom.yaml')
-        opt = detect.parse_opt()
+        #opt = detect.parse_opt()
         weights_path = os.path.join(proj_dir, 'train')
         exp = os.listdir(weights_path)
         exp.sort()
         exp.sort(key=len)
         weights_path = os.path.join(weights_path, exp[-1], 'weights', 'best.pt')
 
-        opt.weights = weights_path
-        opt.data = data_dir
-        opt.iou_thres=0.25
-        opt.source = './'+src_img_path
-        opt.project = result_dir
-        opt.name = 'exp'
-        detect.main(opt)
+        #opt.weights = weights_path
+        #opt.data = data_dir
+        #opt.iou_thres=0.25
+        #opt.source = './'+src_img_path
+        #opt.project = result_dir
+        #opt.name = 'exp'
+        savedPath = os.getcwd()
+        os.chdir('/root/yolov5_tg/tg_yolo/yolov5/')
+        command = '/root/yolov5_tg/tg_yolo/yolov5/detect.py'
+        #detect.main(opt)
+        params = f'--weights {weights_path} --conf {0.25} --source {src_img_path} --project {result_dir}'
+        print('python3 '+ command +' ' +  params)
+        popen = subprocess.Popen('python3 '+ command +' ' +  params, executable='/bin/bash', shell=True)
+        popen.wait()
+        os.chdir(savedPath)
 
         exp = os.listdir(result_dir)
         exp.sort()
