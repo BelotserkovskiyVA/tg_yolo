@@ -7,17 +7,18 @@ git clone https://github.com/BelotserkovskiyVA/tg_yolo.git
 cd tg_yolo/
 pip install r requirements.txt
 ```
-## 2. Install ultralytics/yolov5
-```
-git clone https://github.com/ultralytics/yolov5.git
-```
-## 3. set a BOT_TOKEN into config.py
+## 2. set a BOT_TOKEN into config.py
 
 ```
 BOT_TOKEN = '12345:abcde' #Your_token
 ```
+## 3. Install ultralytics/yolov5
+```
+git clone https://github.com/ultralytics/yolov5.git
+```
 ## 4. make changes to programs:  
 ```
+cp yolov5m_leaky.pt yolov5/yolov5m_leaky.pt
 cd yolov5/
 pip install r requirements.txt
 ```
