@@ -3,7 +3,7 @@
 ## 1. Install the Telegram-YOLO
 ```
 cd /root/yolov5_tg/
-git clone https://github.com/BelotserkovskiyVA/tg_yolo.git
+git clone https://github.com/vvabi-sabi/tg_yolo.git
 cd tg_yolo/
 pip install -r requirements.txt
 ```
